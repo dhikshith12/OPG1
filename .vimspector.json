@@ -1,0 +1,18 @@
+{
+  "configurations": {
+    "Launch": {
+      "adapter": "vscode-cpptools",
+      "filetypes": [ "cpp", "c", "objc", "rust" ], // optional
+      "configuration": {
+        "request": "launch",
+        "program": "build/OpenGl",
+        "args": [],
+        "environment": [],
+        "stopAtEntry": true,
+        "cwd": "/home/dhiks/dev/OpenGl/OpenGl/src",
+        "externalConsole": true,
+        "MIMode": "gdb"
+      }
+    }
+  }
+}
