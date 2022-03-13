@@ -9,6 +9,7 @@
 #include "IndexBuffer.hpp"
 #include "VertexBufferLayout.hpp"
 #include "VertexArray.hpp"
+#include "Texture.hpp"
 
 int main(int argc, char **argv)
 {
@@ -40,10 +41,10 @@ int main(int argc, char **argv)
     //attribute(position) stride will be offset b/w vertices 2*sizeof(float)
     {
         float positions[] = {
-            -0.5f, -0.5f, //0
-            0.5f, -0.5f, //1
-            0.5f,  0.5f, //2
-            -0.5f,  0.5f, //3
+           -0.5f, -0.5f, 0.0f, 0.0f,//0
+            0.5f, -0.5f, 1.0f, 0.0f,//1
+            0.5f,  0.5f, 1.0f, 1.0f,//2
+           -0.5f,  0.5f, 0.0f, 1.0f//3
         };
 
         //this index buffers help us reuse the same vertex buffer objects in this
@@ -52,6 +53,9 @@ int main(int argc, char **argv)
             0, 1, 2,
             2, 3, 0
         };
+        GLCall(glEnable(GL_BLEND));
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
         // unsigned int vao; /* vertex array objects which maintain the state of layout state for vertexbuffer*/
         // GLCall(glGenVertexArrays(1,&vao));
         // GLCall(glBindVertexArray(vao));
@@ -62,9 +66,10 @@ int main(int argc, char **argv)
           */
 
         VertexArray va;
-        VertexBuffer vb(positions,4*2*sizeof(float));
+        VertexBuffer vb(positions,4*4*sizeof(float));
 
         VertexBufferLayout layout;
+        layout.Push<float>(2);
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
 
@@ -74,6 +79,10 @@ int main(int argc, char **argv)
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+
+        Texture texture("res/textures/image.png");
+        texture.Bind();
+        shader.SetUniform1i("u_Texture", 0);
         /*
          * Uniforms in OpenGl are set per draw.
          * Attributes are set per vertex.
