@@ -92,8 +92,7 @@ int main(int argc, char **argv)
         float increment = 0.05f;
         while(!glfwWindowShouldClose(window))
         {
-            GLCall(glClear(GL_COLOR_BUFFER_BIT));
-            /* */
+            renderer.Clear();
             shader.Bind();
             shader.SetUniform4f("u_Color", r, 0.3f, 0.8f,1.0f);
             renderer.Draw(va,ib,shader);
@@ -106,9 +105,7 @@ int main(int argc, char **argv)
             r+=increment;
             /*OpenGl is a state machine
               draws the currently bound vertex buffers*/
-
             glfwSwapBuffers(window);
-
             glfwPollEvents();
         }
     }
