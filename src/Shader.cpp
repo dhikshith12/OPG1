@@ -7,7 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include <glm/glm.hpp>
 Shader::Shader(const std::string& filepath)
     :m_FilePath(filepath), m_RendererID(0)
 {
@@ -30,6 +30,10 @@ void Shader::SetUniform1i(const std::string& name, int value)
 {
     int location = GetUniformLocation(name);
     GLCall(glUniform1i(location, value));
+}
+void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& proj)
+{
+    GLCall(glUniformMatrix4fv(GetUniformLocation(name),1,GL_FALSE, &proj[0][0]));
 }
 void Shader::SetUniform1f(const std::string& name, float value)
 {
